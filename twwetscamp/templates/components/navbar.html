@@ -1,0 +1,86 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-tweetme mb-4">
+    <a class="navbar-brand" href="/">
+        <img  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_XOrfAbLOf7xuz5hxi5XwNI49V5n9IANAZA&usqp=CAU" height="80px" width="100px" />
+    </a>
+     {% if request.user.is_authenticated %}
+       <p class="badge badge-info" style="text-shadow:1px 2px 3px gold; font-size:40">
+welcome {{ user.username}}
+       </p>
+       {% endif%}
+
+
+
+     <form class="form form-inline my-2 my-lg-0"  action="{% url 'search-user' %}" method="POST">
+         {% csrf_token %}
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" name="name" aria-label="Search">
+            <input type="submit" class="btn btn-outline-success my-2 my-sm-0" name="submit" value="Search">
+
+      </form>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">  <i class="fa fa-home" style="font-size:45px"></i> <span class="sr-only">(current)</span></a>
+        </li>
+
+        {% if request.user.is_authenticated %}
+
+        <li class="nav-item">
+
+
+             <span>
+                 <img   avatar ="{{user.username}}" height="75" width="75" style="border-radius:50%" />
+           <p class="text text-info">
+                    {{request.user.username}}
+                </p>
+            </span>
+        </li>
+
+         <li class="nav-item">
+          <a class="nav-link" href="https://chatymartini.pythonanywhere.com/"><i class="fa fa-send" style="font-size:45px"></i></a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="/logout"><i class="fa fa-sign-out" style="font-size:45px"></i></a>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link" href="/profile/edit"><i class="fa fa-edit" style="font-size:45px"></i></a>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link" href="{%url 'mymusic'%}"><i class="fa fa-music" style="font-size:45px"></i></a>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'photo_uploader' %}"><i class="fa fa-camera" style="font-size:45px"></i></a>
+        </li>
+
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'photo_uploader2' %}"><i class="fa fa-photo" style="font-size:45px"></i></a>
+        </li>
+
+        {% else %}
+
+          <li class="nav-item">
+            <a class="nav-link" href="/login"><i class="fa fa-sign-in" style="font-size:45px"></i></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">register<i class="fa fa-user" style="font-size:45px"></i></a>
+          </li>
+
+        {% endif %}
+
+
+
+      </ul>
+
+    </div>
+  </nav>

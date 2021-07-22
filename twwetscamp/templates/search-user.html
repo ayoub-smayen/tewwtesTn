@@ -1,0 +1,23 @@
+
+{% extends "base.html"%}
+
+{% block content %}
+{% if results %}
+{% for result in results %}
+
+    <p>{{result.username}}</p>
+    <a href ="/profile/{{result.username}}">
+        {{result.username}}
+    </a>
+
+{% endfor %}
+
+{% else %}
+<p>
+    no person with this name
+</p>
+<a href="/">back</a>
+
+{%endif%}
+
+{%endblock%}

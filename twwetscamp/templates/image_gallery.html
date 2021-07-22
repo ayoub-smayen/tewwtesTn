@@ -1,0 +1,78 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<style>
+    .image-preview {
+  width: 300px;
+  height: 300px;
+  background-color: #efefef;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}
+
+canvas {
+  display: none;
+}
+</style>
+<input id="file-input" type="file" />
+<div class="image-preview"></div>
+<script>
+    alert("js work")
+</script>
+<script>
+    function readFile(file) {
+  var reader = new FileReader();
+  var type = file.type;
+
+  reader.onload = function (e) {
+    var img = document.createElement('img');
+    img.src = reader.result;
+    preSizeImage(img, type, 300, 300);
+  }
+
+  reader.readAsDataURL(file, type);
+}
+
+function preSizeImage(img, type, MAX_HEIGHT, MAX_WIDTH) {
+  var canvas     = document.createElement('canvas'),
+      ctx        = canvas.getContext('2d'),
+      MAX_WIDTH  = MAX_WIDTH || 150,
+      MAX_HEIGHT = MAX_HEIGHT || 150,
+      width      = img.width,
+      height     = img.height,
+      fileType   = type || "image/png";
+
+  if (width > height) {
+    if (width > MAX_WIDTH) {
+      height *= MAX_WIDTH / width;
+      width = MAX_WIDTH;
+    }
+  } else {
+    if (height > MAX_HEIGHT) {
+      width *= MAX_HEIGHT / height;
+      height = MAX_HEIGHT;
+    }
+  }
+
+  canvas.width = width;
+  canvas.height = height;
+  ctx.drawImage(img, 0, 0, width, height);
+
+  var dataURL = canvas.toDataURL(fileType);
+  localStorage.clear();
+  localStorage.setItem('image:preview', dataURL);
+  previewImage(dataURL, '.image-preview');
+}
+
+function previewImage(dataURL, selector) {
+  var backgroundImage = 'url(' + dataURL + ')';
+  $(selector).css('background-image', backgroundImage);
+}
+
+$('#file-input').on('change', function () {
+  var file = this.files[0];
+  readFile(file);
+});
+</script>
+{% endblock %}
